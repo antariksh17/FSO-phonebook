@@ -1,3 +1,5 @@
+    require('dotenv').config()
+    
     const express = require('express')
 
     const morgan = require('morgan')
@@ -25,31 +27,15 @@
 
     
     
-    let persons = [
-        { 
-        "id": 1,
-        "name": "Arto Hellas", 
-        "number": "040-123456"
-        },
-        { 
-        "id": 2,
-        "name": "Ada Lovelace", 
-        "number": "39-44-5323523"
-        },
-        { 
-        "id": 3,
-        "name": "Dan Abramov", 
-        "number": "12-43-234345"
-        },
-        { 
-        "id": 4,
-        "name": "Mary Poppendieck", 
-        "number": "39-23-6423122"
-        }
-    ]
+//
 
     app.get('/api/persons', (request, response) => {
-        return response.json(persons)
+        
+        Contact.find({}).then(contacts => {
+
+            response.json(contacts)
+      
+          })
     })
 
     app.get('/info', (request, response) => {
@@ -74,34 +60,22 @@
 
 
     app.post('/api/persons', (request,response)=> {
-        const body= request.body
-        let  check= persons.filter((person)=> {
-                        persons.name == body.name || persons.number == body.number
+        const body = request.body
 
-                    })
-        if(!body.name || !body.number){
-            return response.status(400).json({
-                error: "data is missing"
-            })
-        } else if(check.length >=1){
-                
-                return response.status(400).json({
-                    error: "contact already exists in the phonebook!"
-                })
-
-            }
-
-        const person ={
-
-            id: Math.floor(Math.random()* 15000),
+        if (body.name === undefined) {
+          return response.status(400).json({ error: 'content missing' })
+        }
+      
+        const contact = new Contact({
+          
             name: body.name,
             number: body.number
-        }
-        
-        console.log("hey",person)
-
-        persons = persons.concat(person)
-        response.json(person)
+          
+        })
+      
+        contact.save().then(savedContact => {
+          response.json(savedContact)
+        })
     })
 
     app.delete('/api/persons/:id', (request,response) => {
@@ -116,8 +90,34 @@
 
 
 
-    const PORT = process.env.PORT || 3001
+    const PORT = process.env.PORT
 
     app.listen(PORT, () => {
         console.log(`server running on port ${PORT}`)
     })
+
+
+//-------------------------------------------
+
+// let persons = [
+//     { 
+//     "id": 1,
+//     "name": "Arto Hellas", 
+//     "number": "040-123456"
+//     },
+//     { 
+//     "id": 2,
+//     "name": "Ada Lovelace", 
+//     "number": "39-44-5323523"
+//     },
+//     { 
+//     "id": 3,
+//     "name": "Dan Abramov", 
+//     "number": "12-43-234345"
+//     },
+//     { 
+//     "id": 4,
+//     "name": "Mary Poppendieck", 
+//     "number": "39-23-6423122"
+//     }
+// ]
