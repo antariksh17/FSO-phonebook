@@ -4,6 +4,8 @@
 
     const app= express()
 
+    const Contact = require('./models/contact')
+
     const cors = require('cors')
     app.use(cors())
 
