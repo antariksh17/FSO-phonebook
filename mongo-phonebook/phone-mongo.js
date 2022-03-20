@@ -41,7 +41,7 @@ if(process.argv.length==3){
     console.log('Please provide the number also to be added as an argument:  node phone-mongo.js <password> <"firstname lastName"> <number> ')
     process.exit(1)
 
-} else if(rocess.argv.length==5){
+} else if(process.argv.length==5){
     
     contact.save().then(result => {
         console.log(`Added ${contact.name} number ${contact.number} to phonebook`)
