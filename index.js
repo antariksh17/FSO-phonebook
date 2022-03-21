@@ -58,7 +58,7 @@ const contact = require('./models/contact')
        
     })
 
-    app.get('/api/persons/:id', (request, response) => {
+    app.get('/api/persons/:id', (request, response,next) => {
         
         Contact.findById(request.params.id).then(contact => {
     
@@ -138,7 +138,7 @@ const contact = require('./models/contact')
         
     })
 
-    app.delete('/api/persons/:id', (request,response) => {
+    app.delete('/api/persons/:id', (request,response, next) => {
 
         Contact.findByIdAndRemove(request.params.id)
             .then(result => {
