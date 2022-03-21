@@ -121,11 +121,11 @@ const contact = require('./models/contact')
         })
 
 
-        Contact.findById(body.name).then(contacts => {
+        Contact.findOne({name:body.name}).then(contacts => {
     
             if(contacts) {
               
-                updateExisting(body.id)
+                return response.status(400).json({ error: 'Contact already exists in DB' })
 
             } else {
                 
@@ -159,8 +159,10 @@ const contact = require('./models/contact')
         console.error(error.message)
       
         if (error.name === 'CastError') {
-          return response.status(400).send({ error: 'malformatted id' })
-        } 
+            return response.status(400).send({ error: 'malformatted id' })
+          } else if (error.name === 'ValidationError') {
+            return response.status(400).json({ error: error.message })
+        }
       
         next(error)
     }
