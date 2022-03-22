@@ -228,14 +228,15 @@ const App = () => {
             setNotif(null)
           }, 5000)
 
-          .catch(error => {
-            
-            console.log(error.response.data)
-            setNotif( 
-              ` ${error.response.data}`
-            )
-          })
+          
 
+        })
+        .catch(error => {
+            
+          console.log(error.response.data)
+          setNotif( 
+            ` ${error.response.data}`
+          )
         })
       
 
