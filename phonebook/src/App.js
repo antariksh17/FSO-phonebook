@@ -233,9 +233,9 @@ const App = () => {
         })
         .catch(error => {
             
-          console.log(error.response.error)
+          console.log(error.response.data.error)
           setNotif( 
-            ` ${error.response.error}`
+            ` ${error.response.data.error}`
           )
         })
       
